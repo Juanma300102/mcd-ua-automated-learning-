@@ -41,7 +41,7 @@ El notebook SHALL medir la autocorrelación de la serie estable en rezagos de 1 
 Cada celda de plantilla que no aplica a una serie univariada SHALL reemplazarse, y su encabezado SHALL explicar por qué la herramienta original no corresponde.
 
 #### Scenario: Ejecución sin errores
-- **WHEN** se ejecuta `uv run jupyter nbconvert --to notebook --execute --inplace TP_Analisis_de_Dataset_v3.ipynb` sin `--allow-errors`
+- **WHEN** se ejecuta `uv run jupyter nbconvert --to notebook --execute --inplace TP_Analisis_de_Dataset_v3_exploracion_por_target.ipynb` sin `--allow-errors`
 - **THEN** el comando termina con código 0
 
 ### Requirement: Hallazgos de la Etapa 3

@@ -6,13 +6,6 @@ Define el notebook derivado que aplica el flujo del TP al tráfico total horario
 
 ## Requirements
 
-### Requirement: Copia independiente del notebook
-El análisis SHALL vivir en `TP_Analisis_de_Dataset_v3_alb_request_count.ipynb`, creado a partir del notebook del TP, y el notebook original SHALL quedar sin cambios.
-
-#### Scenario: Original intacto
-- **WHEN** se compara el hash de `TP_Analisis_de_Dataset_v3.ipynb` antes y después del cambio
-- **THEN** es idéntico
-
 ### Requirement: Carga del dataset RequestCount
 La copia SHALL cargar `data/alb-request-count-hourly-since-2026-05-01.csv`, con la misma alternativa de subida para Colab y las fechas interpretadas en UTC.
 
@@ -42,8 +35,30 @@ La copia SHALL calcular, en el período estable, el cociente horario `RequestCou
 - **THEN** se imprimen la mediana, el mínimo y el máximo del cociente y se muestra un gráfico de su evolución
 
 ### Requirement: Respuestas y entregable ejecutado
-Las cinco celdas de respuesta de la copia SHALL citar cifras de la nueva serie, y la copia SHALL quedar ejecutada de punta a punta sin errores.
+Las cinco celdas de respuesta del notebook entregable SHALL citar cifras de la serie `RequestCount`, y el notebook SHALL quedar ejecutado de punta a punta sin errores.
 
 #### Scenario: Ejecución final
-- **WHEN** se ejecuta `uv run jupyter nbconvert --to notebook --execute --inplace TP_Analisis_de_Dataset_v3_alb_request_count.ipynb`
+- **WHEN** se ejecuta `uv run jupyter nbconvert --to notebook --execute --inplace TP_Analisis_de_Dataset_v3.ipynb`
 - **THEN** termina con código 0, sin errores en las celdas y sin el texto "Reemplacen este texto por su respuesta"
+
+### Requirement: Notebook entregable con el nombre de la plantilla
+El análisis del tráfico total del ALB SHALL vivir en `TP_Analisis_de_Dataset_v3.ipynb` como notebook entregable, y el análisis por target SHALL conservarse en `TP_Analisis_de_Dataset_v3_exploracion_por_target.ipynb` con sus cifras sin cambios.
+
+#### Scenario: Nombres después del intercambio
+- **WHEN** se listan los notebooks de la raíz del repositorio
+- **THEN** existen `TP_Analisis_de_Dataset_v3.ipynb`, con `metric_name` igual a `RequestCount` en su salida de carga, y `TP_Analisis_de_Dataset_v3_exploracion_por_target.ipynb`, con `RequestCountPerTarget`
+
+#### Scenario: Cifras del primer intento intactas
+- **WHEN** se comparan las salidas de texto de `TP_Analisis_de_Dataset_v3_exploracion_por_target.ipynb` antes y después del cambio
+- **THEN** son idénticas
+
+### Requirement: Rol explícito de cada notebook
+El notebook entregable SHALL presentarse como el análisis entregado y citar el análisis por target como "primer intento exploratorio" con su nombre de archivo, sin llamarlo "TP principal". El primer intento SHALL abrir con un aviso que indique que no es el entregable y enlace al notebook entregado.
+
+#### Scenario: Sin referencias al "TP principal"
+- **WHEN** se busca "TP principal" en las celdas de `TP_Analisis_de_Dataset_v3.ipynb`
+- **THEN** no hay coincidencias, y aparece al menos una referencia a `TP_Analisis_de_Dataset_v3_exploracion_por_target.ipynb`
+
+#### Scenario: Aviso en el primer intento
+- **WHEN** se lee la segunda celda de `TP_Analisis_de_Dataset_v3_exploracion_por_target.ipynb`
+- **THEN** indica que es un primer intento exploratorio, que no es el entregable, y menciona `TP_Analisis_de_Dataset_v3.ipynb`
